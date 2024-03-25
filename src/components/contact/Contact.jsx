@@ -33,7 +33,6 @@ const Contact = () => {
         else {
             setEditMode(false); // Set editMode to false when getId is null
             setEditIdData({});
-            console.log('not found')
         }
     }, [getId, setEditMode])
     const schema = Yup.object().shape({
