@@ -7,9 +7,10 @@ import Contact from './components/contact/Contact';
 import Table from './components/table/Table';
 import { compObj } from './globals/Data/compObj';
 const App = () => {
- 
+
   const { navbarData, setNavbarData, setSelectComp, selectComp } = useLayoutData();
   useEffect(() => {
+    console.log(navbarData);
     setSelectComp(compObj[navbarData])
   }, [navbarData])
   return (

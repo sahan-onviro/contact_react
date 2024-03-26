@@ -8,35 +8,34 @@ import { IoMdClose } from "react-icons/io";
 
 
 export const Navbar = () => {
-  const [lastID, setLastID] = useState(0);
+  const { navbarData, setNavbarData, setSelectComp, selectComp } = useLayoutData();
 
+  const dispatch = useDispatch();
+  const tabSelector = useSelector((state => state.tabmenu))
+
+  const [lastID, setLastID] = useState(0);
   const generateID = () => {
     const newID = lastID + 1;
     setLastID(newID);
   };
-  const { navbarData, setNavbarData, setSelectComp, selectComp } = useLayoutData();
-  const dispatch = useDispatch();
-  const tabSelector = useSelector((state =>
-    state.tabmenu
-  ))
-  const aakriti = useSelector((state) => state.tabmenu.component)
-  console.log(aakriti)
-  const tabTitle = tabSelector.title;
-  // console.log(tabTitle);
 
   const handleMenu = (title) => {
-    dispatch(AddTab({ name: title.slug, id: lastID }))
     generateID()
+    dispatch(AddTab({ name: title.slug, id: lastID }))
     setNavbarData(title.slug)
   }
-  const handleMenuContent = (item) => {
-    setNavbarData(item.name)
-  }
-  const handleCloseBtn = (item) => {
-    dispatch(RemoveTab(item))
+  useEffect(() => {
+    console.log(tabSelector.component)
+    setNavbarData(tabSelector.component);
+  }, [tabSelector.component]);
 
-    setNavbarData(aakriti)
+  const handleCloseBtn = (item) => {
+    dispatch(RemoveTab(item));
   }
+  const handleMenuContent = (item) => {
+    setNavbarData(item.name);
+  };
+
   return (
     <>
       <header>
@@ -50,10 +49,12 @@ export const Navbar = () => {
       </header>
       <div>
         {tabSelector?.title?.map((item, index) => (
-          <button key={index}  >{item.name}
-            {/* {console.log(item)}  */}
-            <span onClick={() => handleCloseBtn(index)}><IoMdClose /></span>
-          </button>
+          <>
+            <button key={index} onClick={() => handleMenuContent(item)}>{item.name}
+              {/* {console.log(item)}  */}
+            </button>
+            <span onClick={(e) => { e.stopPropagation(); handleCloseBtn(index); }}><IoMdClose /></span>
+          </>
         ))}
       </div>
     </>
