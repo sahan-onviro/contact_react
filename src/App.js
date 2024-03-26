@@ -10,9 +10,9 @@ const App = () => {
 
   const { navbarData, setNavbarData, setSelectComp, selectComp } = useLayoutData();
   useEffect(() => {
-    console.log(navbarData);
     setSelectComp(compObj[navbarData])
   }, [navbarData])
+  console.log("app ko :",navbarData);
   return (
     <>
       <Navbar />

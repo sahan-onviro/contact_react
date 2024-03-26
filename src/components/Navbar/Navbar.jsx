@@ -2,7 +2,7 @@ import React, { useEffect, useId, useState } from 'react';
 import { useLayoutData } from '../../globals/Context/Layout';
 import { NavbarData } from '../../globals/Data/navbarData'; // Assuming this is correct
 import { useDispatch, useSelector } from 'react-redux';
-import { AddTab, RemoveTab } from '../../redux/tabSlice';
+import { AddTab, RemoveTab, ViewTab } from '../../redux/tabSlice';
 import { IoMdClose } from "react-icons/io";
 
 
@@ -33,7 +33,7 @@ export const Navbar = () => {
     dispatch(RemoveTab(item));
   }
   const handleMenuContent = (item) => {
-    setNavbarData(item.name);
+    dispatch(ViewTab(item))
   };
 
   return (
@@ -51,9 +51,8 @@ export const Navbar = () => {
         {tabSelector?.title?.map((item, index) => (
           <>
             <button key={index} onClick={() => handleMenuContent(item)}>{item.name}
-              {/* {console.log(item)}  */}
+              <span onClick={(e) => { e.stopPropagation(); handleCloseBtn(index); }}><IoMdClose /></span>
             </button>
-            <span onClick={(e) => { e.stopPropagation(); handleCloseBtn(index); }}><IoMdClose /></span>
           </>
         ))}
       </div>
